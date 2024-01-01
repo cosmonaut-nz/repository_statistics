@@ -1,0 +1,25 @@
+# Rust artifacts
+target
+**/*.rs.bk
+
+# Generated files
+/Cargo.lock
+**/*.rs.bk
+/output
+
+# IDEs and editors
+/.idea
+**/*.swp
+**/*.swo
+.vscode/
+*.sublime-workspace
+*.code-workspace
+scratchpad.*
+**/*.old
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Environment configuration - SENSITIVE DATA!
+.env
