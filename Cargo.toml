@@ -12,7 +12,16 @@ keywords = ["code analysis", "ai", "rag", "vector db", "llm"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokei = "12.1.2"
+anyhow = { version = "1.0.78" }
+chrono = { version = "0.4.31", features = ["serde"] }
+git2 = { version = "0.18.1" }
+log = { version = "0.4.20" }
+qdrant-client = { version = "1.7.0" }
 serde = { version = "1.0.193", features = ["derive"] }
-serde_json = "1.0.108"
+serde_json = { version = "1.0.109" }
+sha2 = { version = "0.10.8" }
+tokei = { version = "12.1.2" }
+tokio = { version = "1.35.1", features = ["rt-multi-thread"] }
+tonic = { version = "0.10.2" }
+walkdir = { version = "2.4.0" }
 
