@@ -13,11 +13,11 @@ use crate::{errors::SourceCodeError, source::SourceFileChangeFrequency};
 /// * `frequency` - The frequency of commits to the repository, as a ratio of commits to total commits in the repository
 #[derive(Clone, Default, Serialize, Deserialize, Debug, PartialEq)]
 pub struct Statistics {
-    pub size: i64,
-    pub loc: i64,
+    pub size: i64, // Higher is worse for files; too big to be maintainable
+    pub loc: i64,  // Higher is worse for files; too big to be maintainable
     pub num_files: i32,
     pub num_commits: i32,
-    pub frequency: f32,
+    pub frequency: f32, // Higher is worse for files; better for contributors (though worse for a team)
 }
 impl Statistics {
     pub fn new() -> Self {

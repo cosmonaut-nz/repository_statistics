@@ -30,6 +30,8 @@ impl RepositoryInfo {
     pub fn new(name: String, repo_path: &str, excluded: &[&str]) -> Result<Self, SourceCodeError> {
         let source_files: Vec<SourceFileInfo> =
             Self::get_source_file_info_for_repo(&[repo_path], excluded)?;
+
+        // FIXME: The predominant language is not being set.
         let predominant_language = Some(Self::get_predominant_language(&source_files));
 
         let mut statistics = Statistics::new();
@@ -155,7 +157,8 @@ impl Contributor {
         }
     }
     /// Gets the contributors from the repository passed as the 'repo_path'.
-    /// TODO: add other contributor statistics, e.g., frequency, lines of code changed in commits(?), num_files changed in commits(?), etc.
+    ///
+    /// TODO: add other contributor statistics: frequency of contribution, lines of code changed in commits(?), num_files changed in commits(?), etc.
     ///
     /// #Arguments:
     /// * `repo_path` - The path to the repository

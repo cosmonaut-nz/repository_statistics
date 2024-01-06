@@ -1,7 +1,7 @@
 use git2::{Commit, DiffDelta, Repository, Revwalk, Tree};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::{ffi::OsString, path::PathBuf, sync::Arc};
+use std::{path::PathBuf, sync::Arc};
 
 use crate::{data::Statistics, errors::SourceCodeError};
 
@@ -21,24 +21,18 @@ pub struct SourceFileInfo {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<LanguageType>,
     pub id_hash: Option<String>,
-    #[serde(skip)]
     pub source_file: Option<Box<SourceFile>>,
     pub statistics: Statistics,
 }
 impl SourceFileInfo {
     pub(crate) fn set_source_file_contents(&mut self, contents: String) {
         self.source_file = Some(Box::new(SourceFile {
-            parent: self.clone(),
-            contents: Arc::new(contents.into()),
+            contents: Arc::new(contents),
         }));
     }
-    pub(crate) fn _get_source_file_contents(&self) -> String {
+    pub fn get_source_file_contents(&self) -> String {
         match &self.source_file {
-            Some(source_file) => source_file
-                .contents
-                .to_str()
-                .unwrap_or_default()
-                .to_string(),
+            Some(source_file) => source_file.contents.to_string(),
             None => {
                 log::error!("Failed to retrieve source file: {}", self.name);
                 String::new()
@@ -90,6 +84,11 @@ impl SourceFileInfo {
 
         Ok(source_file_info)
     }
+
+    /// Gets the [`SourceFileInfo`] as a JSON string
+    pub fn get_as_json(&self) -> Result<String, SourceCodeError> {
+        serde_json::to_string(&self).map_err(|err| SourceCodeError::SerializationError(err.into()))
+    }
     fn get_file_contents_size(file_contents: &String) -> Result<i64, SourceCodeError> {
         let length: i64 = file_contents
             .len()
@@ -108,10 +107,9 @@ impl SourceFileInfo {
 }
 
 /// Represents the contents of a source file
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct SourceFile {
-    parent: SourceFileInfo,
-    contents: Arc<OsString>,
+    contents: Arc<String>,
 }
 
 /// Top-level struct to hold statistics on the [`LanguageType`]s found in the repository.

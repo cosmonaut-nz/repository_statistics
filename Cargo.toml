@@ -1,19 +1,20 @@
 [package]
-name = "source_code_handler"
+name = "repository_statistics"
 version = "0.1.0"
 edition = "2021"
 authors = ["Mick Clarke <avastmick@outlook.com>"]
 license = "MIT"
-description = "A library to enable the inspection of source code files in a directory (repository) and provide structured statistics on the contents."
+description = "A library to gather structured statistics on the source code files in a software repository, generate embeddings and store in a vector database."
 repository = ""
 readme = "README.md"
-keywords = ["code analysis", "ai", "rag", "vector db", "llm"]
+keywords = [ "ai", "code analysis", "embedding", "fastembed", "llm", "qdrant", "rag", "vector db"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 anyhow = { version = "1.0.78" }
 chrono = { version = "0.4.31", features = ["serde"] }
+fastembed = {version = "1.10.0" }
 git2 = { version = "0.18.1" }
 log = { version = "0.4.20" }
 qdrant-client = { version = "1.7.0" }
